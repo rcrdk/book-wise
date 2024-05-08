@@ -1,25 +1,11 @@
-import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { Adapter } from 'next-auth/adapters'
-import { destroyCookie, parseCookies } from 'nookies'
 
 import { prisma } from '../prisma'
 
-export function PrismaAdapter(
-	req: NextApiRequest | NextPageContext['req'],
-	res: NextApiResponse | NextPageContext['res'],
-): Adapter {
+export function PrismaAdapter(): Adapter {
 	return {
 		async createUser(user) {
-			const { '@ignitecall:user_id': userIdOnCookies } = parseCookies({ req })
-
-			if (!userIdOnCookies) {
-				throw new Error('User ID not found on cookies.')
-			}
-
-			const prismaUser = await prisma.user.update({
-				where: {
-					id: userIdOnCookies,
-				},
+			const prismaUser = await prisma.user.create({
 				data: {
 					name: user.name,
 					email: user.email,
@@ -27,14 +13,11 @@ export function PrismaAdapter(
 				},
 			})
 
-			destroyCookie({ res }, '@ignitecall:user_id', {
-				path: '/',
-			})
+			console.log(user)
 
 			return {
 				id: prismaUser.id,
 				name: prismaUser.name,
-				username: prismaUser.username,
 				email: prismaUser.email!,
 				emailVerified: null,
 				avatar_url: prismaUser.avatar_url!,
@@ -55,7 +38,6 @@ export function PrismaAdapter(
 			return {
 				id: user.id,
 				name: user.name,
-				username: user.username,
 				email: user.email!,
 				emailVerified: null,
 				avatar_url: user.avatar_url!,
@@ -76,7 +58,6 @@ export function PrismaAdapter(
 			return {
 				id: user.id,
 				name: user.name,
-				username: user.username,
 				email: user.email!,
 				emailVerified: null,
 				avatar_url: user.avatar_url!,
@@ -105,7 +86,6 @@ export function PrismaAdapter(
 			return {
 				id: user.id,
 				name: user.name,
-				username: user.username,
 				email: user.email!,
 				emailVerified: null,
 				avatar_url: user.avatar_url!,
@@ -127,7 +107,6 @@ export function PrismaAdapter(
 			return {
 				id: prismaUser.id,
 				name: prismaUser.name,
-				username: prismaUser.username,
 				email: prismaUser.email!,
 				emailVerified: null,
 				avatar_url: prismaUser.avatar_url!,
@@ -197,7 +176,6 @@ export function PrismaAdapter(
 				user: {
 					id: user.id,
 					name: user.name,
-					username: user.username,
 					email: user.email!,
 					emailVerified: null,
 					avatar_url: user.avatar_url!,

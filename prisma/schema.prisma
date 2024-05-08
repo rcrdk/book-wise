@@ -10,6 +10,7 @@ datasource db {
 model User {
     id         String   @id @default(uuid())
     name       String
+    email      String?  @unique
     avatar_url String?
     created_at DateTime @default(now())
 
@@ -45,13 +46,13 @@ model Category {
 }
 
 model CategoriesOnBooks {
-    book_id    String
-    categoryId String
+    book_id     String
+    category_id String
 
     book     Book     @relation(fields: [book_id], references: [id])
-    category Category @relation(fields: [categoryId], references: [id])
+    category Category @relation(fields: [category_id], references: [id])
 
-    @@id([book_id, categoryId])
+    @@id([book_id, category_id])
 }
 
 model Rating {

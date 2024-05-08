@@ -1,16 +1,14 @@
-import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth, { NextAuthOptions } from 'next-auth'
-import GitHubProvider from 'next-auth/providers/github'
+import GitHubProvider, { GithubProfile } from 'next-auth/providers/github'
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google'
 
 import { PrismaAdapter } from '@/lib/auth/prisma-adapter'
 
-export function buildNextAuthOptions(
-	req: NextApiRequest | NextPageContext['req'],
-	res: NextApiResponse | NextPageContext['res'],
-): NextAuthOptions {
+export function buildNextAuthOptions(): NextAuthOptions {
 	return {
-		adapter: PrismaAdapter(req, res),
+		adapter: PrismaAdapter(),
+		secret: process.env.NEXTAUTH_SECRET,
 		providers: [
 			GoogleProvider({
 				clientId: process.env.GOOGLE_CLIENT_ID ?? '',
@@ -27,9 +25,8 @@ export function buildNextAuthOptions(
 				profile: (profile: GoogleProfile) => {
 					return {
 						id: profile.sub,
-						name: profile.name,
-						username: '',
 						email: profile.email,
+						name: profile.name,
 						avatar_url: profile.picture,
 					}
 				},
@@ -37,18 +34,26 @@ export function buildNextAuthOptions(
 			GitHubProvider({
 				clientId: process.env.GITHUB_CLIENT_ID ?? '',
 				clientSecret: process.env.GITHUB_CLIENT_SECRET ?? '',
+				profile: (profile: GithubProfile) => {
+					return {
+						id: String(profile.id),
+						name: profile.name!,
+						email: profile.email!,
+						avatar_url: profile.avatar_url,
+					}
+				},
 			}),
 		],
 		callbacks: {
-			// async signIn({ account }) {
-			// 	if (
-			// 		!account?.scope?.includes('https://www.googleapis.com/auth/calendar')
-			// 	) {
-			// 		return '/register/connect-calendar?error=permissions'
-			// 	}
+			async signIn({ account }) {
+				const isAllowedToSignIn = !!account
 
-			// 	return true
-			// },
+				if (isAllowedToSignIn) {
+					return true
+				} else {
+					return false
+				}
+			},
 			async session({ session, user }) {
 				return {
 					...session,
@@ -60,5 +65,5 @@ export function buildNextAuthOptions(
 }
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-	return await NextAuth(req, res, buildNextAuthOptions(req, res))
+	return await NextAuth(req, res, buildNextAuthOptions())
 }

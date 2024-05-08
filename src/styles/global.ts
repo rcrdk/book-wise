@@ -11,6 +11,13 @@ export const globalStyles = globalCss({
 	body: {
 		backgroundColor: '$gray800',
 		color: '$gray200',
+		lineHeight: '$base',
 		'-webkit-font-smoothing': 'antialiased',
+	},
+
+	img: {
+		display: 'block',
+		height: 'auto',
+		maxWidth: '100%',
 	},
 })

@@ -12,7 +12,7 @@ export default function Avatar(props: AvatarProps) {
 		<AvatarContainer size={props.size}>
 			<AvatarImage {...props} />
 			<AvatarFallback delayMs={600}>
-				<User />
+				<User weight="bold" />
 			</AvatarFallback>
 		</AvatarContainer>
 	)

@@ -11,18 +11,42 @@ export const Container = styled('header', {
 	minHeight: 'calc(100dvh - ($space$5 * 2))',
 	background: '$gradient-vertical',
 	borderRadius: '$md',
-	backgroundColor: '$purple200',
+	backgroundColor: '$gray700',
 	backgroundSize: 'cover',
 	backgroundPosition: 'bottom center',
 	backgroundImage: `url(${BackgroundImage.src})`,
 	display: 'flex',
 	flexDirection: 'column',
 	alignItems: 'center',
+
+	'@media(max-width:1024px)': {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		minHeight: 0,
+		backgroundImage: 'none',
+	},
 })
 
 export const Brand = styled(Image, {
 	maxWidth: '66%',
 	margin: '$10 0',
+
+	'@media(max-width:1024px)': {
+		margin: '$6',
+		maxWidth: 160,
+	},
+
+	'@media(max-width:575px)': {
+		margin: '$5',
+		marginRight: 0,
+		width: 140,
+	},
+
+	'@media(max-width:375px)': {
+		margin: '$4',
+		marginRight: 0,
+		width: 130,
+	},
 })
 
 export const Nav = styled('nav', {
@@ -31,9 +55,15 @@ export const Nav = styled('nav', {
 	flexGrow: 1,
 	padding: '$6 0',
 	gap: '$4',
+
+	'@media(max-width:1024px)': {
+		padding: '$2 0',
+		paddingLeft: '$1',
+	},
 })
 
 export const NavLink = styled(Link, {
+	all: 'unset',
 	position: 'relative',
 	display: 'flex',
 	alignItems: 'center',
@@ -41,6 +71,12 @@ export const NavLink = styled(Link, {
 	color: '$gray400',
 	textDecoration: 'none',
 	padding: '$2 0',
+	cursor: 'pointer',
+
+	'@media(max-width:1024px)': {
+		padding: '$2 0',
+		paddingRight: '$5',
+	},
 
 	svg: {
 		fontSize: '$space$6',
@@ -92,6 +128,11 @@ export const UserLink = styled('button', {
 	width: '83%',
 	cursor: 'pointer',
 
+	'@media(max-width:1024px)': {
+		padding: 0,
+		borderRadius: '$full',
+	},
+
 	span: {
 		'&:nth-child(2)': {
 			display: 'block',
@@ -115,5 +156,51 @@ export const UserLink = styled('button', {
 
 	'&:hover': {
 		color: '$gray400',
+	},
+})
+
+export const LargeNav = styled('div', {
+	display: 'flex',
+	flexDirection: 'column',
+	flexGrow: 1,
+	alignItems: 'center',
+	width: '100%',
+
+	'@media(max-width:1024px)': {
+		display: 'none',
+	},
+})
+
+export const SmallNav = styled('div', {
+	display: 'none',
+	gap: '$2',
+	alignItems: 'center',
+	paddingRight: '$5',
+
+	'@media(max-width:1024px)': {
+		display: 'flex',
+	},
+
+	'@media(max-width:375px)': {
+		paddingRight: '$4',
+	},
+})
+
+export const NavTrigger = styled('button', {
+	all: 'unset',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	flexShrink: 0,
+	width: '$space$10',
+	height: '$space$10',
+	borderRadius: '$full',
+	background: '$gray600',
+	cursor: 'pointer',
+
+	svg: {
+		color: '$gray400',
+		width: '$space$6',
+		height: '$space$6',
 	},
 })

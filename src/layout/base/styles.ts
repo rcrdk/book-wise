@@ -10,6 +10,16 @@ export const BaseContainer = styled('div', {
 		mode: {
 			default: {
 				gridTemplateColumns: '240px 1fr',
+
+				'@media(max-width:1199px)': {
+					gridTemplateColumns: '200px 1fr',
+				},
+
+				'@media(max-width:1024px)': {
+					gap: 0,
+					gridTemplateColumns: '1fr',
+					gridTemplateRows: 'auto 1fr',
+				},
 			},
 
 			auth: {

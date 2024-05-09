@@ -12,6 +12,7 @@ export const Brand = styled('div', {
 	borderRadius: '$md',
 
 	'@media(max-width:1024px)': {
+		maxWidth: 'calc(100vw - ($space$5 * 2))',
 		aspectRatio: '23/9',
 	},
 

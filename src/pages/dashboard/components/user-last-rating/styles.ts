@@ -8,6 +8,8 @@ export const Container = styled('div', {
 	padding: '$5 $6',
 	gap: '$6',
 	borderRadius: '$md',
+	boxSizing: 'border-box',
+	width: '100%',
 
 	'&[type]': {
 		cursor: 'pointer',

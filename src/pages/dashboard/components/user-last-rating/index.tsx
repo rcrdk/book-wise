@@ -1,3 +1,6 @@
+// Error handling
+// Open book modal
+
 import { useQuery } from '@tanstack/react-query'
 
 import BookCover from '@/components/book-cover'

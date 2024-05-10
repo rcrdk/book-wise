@@ -46,10 +46,13 @@ export const LeftContainer = styled('div', {
 	display: 'flex',
 	flexDirection: 'column',
 	gap: '$10',
+	paddingBottom: '$5',
 
 	'@media(max-width:899px)': {
 		gap: '$8',
 	},
 })
 
-export const RightContainer = styled('div', {})
+export const RightContainer = styled('div', {
+	paddingBottom: '$5',
+})

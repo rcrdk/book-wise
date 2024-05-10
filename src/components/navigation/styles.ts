@@ -72,6 +72,7 @@ export const NavLink = styled(Link, {
 	textDecoration: 'none',
 	padding: '$2 0',
 	cursor: 'pointer',
+	borderRadius: '$sm',
 
 	'@media(max-width:1024px)': {
 		padding: '$2 0',
@@ -97,6 +98,10 @@ export const NavLink = styled(Link, {
 
 	'&:hover': {
 		color: '$gray200',
+	},
+
+	'&:focus-visible': {
+		boxShadow: '$focus',
 	},
 
 	variants: {
@@ -127,10 +132,15 @@ export const UserLink = styled('button', {
 	color: '$gray200',
 	width: '83%',
 	cursor: 'pointer',
+	borderRadius: '$sm',
 
 	'@media(max-width:1024px)': {
 		padding: 0,
 		borderRadius: '$full',
+	},
+
+	'&:focus-visible': {
+		boxShadow: '$focus',
 	},
 
 	span: {
@@ -202,5 +212,9 @@ export const NavTrigger = styled('button', {
 		color: '$gray400',
 		width: '$space$6',
 		height: '$space$6',
+	},
+
+	'&:focus-visible': {
+		boxShadow: '$focus',
 	},
 })

@@ -1,4 +1,9 @@
-import { globalCss } from '@stitches/react'
+import { globalCss, keyframes } from '@stitches/react'
+
+export const pulseAnimation = keyframes({
+	'0%, 100%': { background: '$skeletonFrom' },
+	'50%': { background: '$skeletonTo' },
+})
 
 export const globalStyles = globalCss({
 	'*': {
@@ -6,13 +11,13 @@ export const globalStyles = globalCss({
 		padding: 0,
 		margin: 0,
 		fontFamily: '$default',
+		'-webkit-font-smoothing': 'antialiased',
 	},
 
 	body: {
 		backgroundColor: '$gray800',
 		color: '$gray200',
 		lineHeight: '$base',
-		'-webkit-font-smoothing': 'antialiased',
 	},
 
 	img: {

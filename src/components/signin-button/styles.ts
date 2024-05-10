@@ -32,6 +32,10 @@ export const SignInButtonContainer = styled('button', {
 		background: '$gray500',
 	},
 
+	'&:focus-visible': {
+		boxShadow: '$focusBody',
+	},
+
 	'@media(max-width:575px)': {
 		height: '3.5rem',
 		marginTop: '$3',

@@ -51,10 +51,14 @@ export const { styled, getCssText } = createStitches({
 			gray400: '#8D95AF',
 			gray500: '#303F73',
 			gray600: '#252D4A',
+			gray600hover: '#282f50',
 			gray700: '#181C2A',
+			gray700hover: '#1a1e2d',
 			gray800: '#0E1116',
 			'gradient-vertical': `linear-gradient(180deg, #7FD1CC 0%, #9694F5 100%)`,
 			'gradient-horizontal': `linear-gradient(90deg, #7FD1CC 0%, #9694F5 100%)`,
+			skeletonFrom: '#2e375b',
+			skeletonTo: '#36426c',
 		},
 		radii: {
 			xs: '2.5px',
@@ -62,6 +66,11 @@ export const { styled, getCssText } = createStitches({
 			md: '10px',
 			lg: '20px',
 			full: '99999px',
+		},
+		shadows: {
+			focus: '0 0 0 0.15rem $colors$purple100',
+			focusBody:
+				'0 0 0 0.25rem $colors$gray800, 0 0 0 0.35rem $colors$purple100',
 		},
 	},
 })

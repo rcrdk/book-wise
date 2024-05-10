@@ -1,5 +1,7 @@
 import { ComponentProps, ElementType } from 'react'
 
+import { pulseAnimation } from '@/styles/global'
+
 import { styled } from '../styles'
 
 export const Heading = styled('p', {
@@ -16,10 +18,20 @@ export const Heading = styled('p', {
 			xl: { fontSize: '$xl' },
 			'2xl': { fontSize: '$2xl' },
 		},
+		skeleton: {
+			true: {
+				color: 'transparent !important',
+				borderRadius: '$sm',
+				userSelect: 'none',
+				pointerEvents: 'none',
+				animation: `${pulseAnimation} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+			},
+		},
 	},
 
 	defaultVariants: {
 		size: 'md',
+		skeleton: false,
 	},
 })
 

@@ -4,7 +4,10 @@ import { NextSeo } from 'next-seo'
 import Title from '@/components/title'
 import BaseLayout from '@/layout/base'
 
-import { Container } from './styles'
+import PopularBooks from './components/popular-books'
+import RecentRatings from './components/recent-ratings'
+import UserLastRating from './components/user-last-rating'
+import { Container, LeftContainer, RightContainer } from './styles'
 
 export default function Dashboard() {
 	return (
@@ -15,24 +18,14 @@ export default function Dashboard() {
 				<Container>
 					<Title title="Início" icon={<ChartLineUp />} />
 
-					<div
-						style={{
-							background: '#181c2a',
-							padding: '1rem',
-							borderRadius: '.5rem',
-						}}
-					>
-						Left content
-					</div>
-					<div
-						style={{
-							background: '#181c2a',
-							padding: '1rem',
-							borderRadius: '.5rem',
-						}}
-					>
-						Right content
-					</div>
+					<LeftContainer>
+						<UserLastRating />
+						<RecentRatings />
+					</LeftContainer>
+
+					<RightContainer>
+						<PopularBooks />
+					</RightContainer>
 				</Container>
 			</BaseLayout>
 		</>

@@ -8,7 +8,7 @@ import Box from '@/components/box'
 import { Heading } from '@/components/heading'
 import StarRating from '@/components/star-rating'
 import { Text } from '@/components/text'
-import { UserLastRatingDTO } from '@/dtos/ratings/user-last-rating'
+import { RatingWithBookDTO } from '@/dtos/ratings/rating-with-book'
 import { useAuth } from '@/hooks/auth'
 import { api } from '@/lib/axios'
 import { formatDate } from '@/utils/formatDate'
@@ -18,7 +18,7 @@ import { Author, Container, Description, Info } from './styles'
 export default function UserLastRating() {
 	const { hasSignedIn, user } = useAuth()
 
-	const { data: lastRating, isLoading } = useQuery<UserLastRatingDTO>({
+	const { data: lastRating, isLoading } = useQuery<RatingWithBookDTO>({
 		queryKey: ['user-last-rating'],
 		queryFn: async () => {
 			const response = await api.get('/ratings/user-last-rating')

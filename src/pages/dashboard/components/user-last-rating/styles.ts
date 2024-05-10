@@ -10,6 +10,11 @@ export const Container = styled('div', {
 	borderRadius: '$md',
 	boxSizing: 'border-box',
 	width: '100%',
+	marginBottom: '$10',
+
+	'@media(max-width:899px)': {
+		marginBottom: '$8',
+	},
 
 	'&[type]': {
 		cursor: 'pointer',

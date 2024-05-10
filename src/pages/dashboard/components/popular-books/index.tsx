@@ -1,6 +1,3 @@
-// Loading State
-// Empty State
-// List books
 // Error handling
 // Open book modal
 
@@ -12,7 +9,7 @@ import { Empty } from '@/components/empty'
 import { Heading } from '@/components/heading'
 import StarRating from '@/components/star-rating'
 import { Text } from '@/components/text'
-import { PopularBooksDTO } from '@/dtos/books/popular'
+import { PopularBooksDTO } from '@/dtos/books/popular-books'
 import { api } from '@/lib/axios'
 
 import { BookContainer, BookInfo, BookItem } from './styles'

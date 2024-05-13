@@ -12,7 +12,7 @@ import { Container, LeftContainer, RightContainer } from './styles'
 export default function Dashboard() {
 	return (
 		<>
-			<NextSeo title="BookWise" description="" />
+			<NextSeo title="Avaliações Recentes • BookWise" description="" />
 
 			<BaseLayout>
 				<Container>

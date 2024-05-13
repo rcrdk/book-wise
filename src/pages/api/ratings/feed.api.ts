@@ -9,7 +9,7 @@ export default async function handler(
 	if (req.method !== 'GET') return res.status(405).end()
 
 	if (!req.query.page) {
-		return res.status(400).json({ message: 'Current page not defined.' })
+		return res.status(400).json({ message: 'Current page not provied.' })
 	}
 
 	const resultsPerPage = 12

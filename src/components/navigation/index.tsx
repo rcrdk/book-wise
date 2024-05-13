@@ -60,7 +60,7 @@ export default function Navigation() {
 					{hasSignedIn && (
 						<NavLink
 							href={`/profile/${user?.id}`}
-							active={router.pathname.includes(`/profile/${user?.id}`)}
+							active={router.asPath.includes(`/profile/${user?.id}`)}
 						>
 							<UserCircle />
 							Perfil
@@ -95,7 +95,7 @@ export default function Navigation() {
 							<Nav>
 								<NavLink
 									href={`/profile/${user?.id}`}
-									active={router.pathname.includes(`/profile/${user?.id}`)}
+									active={router.asPath.includes(`/profile/${user?.id}`)}
 								>
 									<UserCircle />
 									Meu Perfil

@@ -1,5 +1,5 @@
 import { BookDTO } from '../books'
-import { UserDTO } from '../users'
+import { UserDTO } from '../profile'
 
 export interface RatingWithBookDTO {
 	id: string

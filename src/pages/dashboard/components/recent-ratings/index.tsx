@@ -1,6 +1,4 @@
-// Error handling
 // Open book modal
-// Pagination
 
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
@@ -41,16 +39,24 @@ export default function RecentRatings() {
 
 	const containerRef = useRef<HTMLDivElement>(null)
 
-	const { data: feed, isLoading } = useQuery<FeedProps>({
+	const {
+		data: feed,
+		isLoading,
+		error,
+	} = useQuery<FeedProps>({
 		queryKey: ['rating-feed', page],
 		queryFn: async () => {
-			const response = await api.get<FeedProps>('/ratings/feed', {
-				params: {
-					page,
-				},
-			})
+			try {
+				const response = await api.get('/ratings/feed', {
+					params: {
+						page,
+					},
+				})
 
-			return response.data
+				return response.data
+			} catch (error) {
+				console.error('ERROR:: RecentRatings', error)
+			}
 		},
 	})
 
@@ -66,17 +72,19 @@ export default function RecentRatings() {
 		}, 1000)
 	}, [])
 
-	const hasRatings = !isLoading && feed && feed.ratings.length > 0
-	const hasNotRatings = !isLoading && feed && feed.ratings.length === 0
+	const hasRatings = !error && !isLoading && feed && feed.ratings.length > 0
+	const hasNotRatings =
+		!error && !isLoading && feed && feed.ratings.length === 0
 
-	const hasPagination = feed && (feed.hasNextPage || feed.hasPrevPage)
+	const hasPagination = !error && feed && (feed.hasNextPage || feed.hasPrevPage)
 
 	return (
 		<>
 			<FeedScroll ref={containerRef} />
 
 			<Box title="Avaliações mais recentes">
-				{hasNotRatings && <Empty>Nenhum registo encontrado</Empty>}
+				{hasNotRatings && <Empty>Nenhua avaliação encontrada.</Empty>}
+				{error && <Empty>Erro ao tentar carregar avaliações.</Empty>}
 			</Box>
 
 			{(isLoading || hasRatings) && (

@@ -1,3 +1,4 @@
+import { Empty } from '@/components/empty'
 import { Text } from '@/components/text'
 import { styled } from '@/styles'
 
@@ -76,5 +77,13 @@ export const Description = styled(Text, {
 				},
 			},
 		},
+	},
+})
+
+export const Error = styled(Empty, {
+	marginBottom: '$10',
+
+	'@media(max-width:899px)': {
+		marginBottom: '$8',
 	},
 })

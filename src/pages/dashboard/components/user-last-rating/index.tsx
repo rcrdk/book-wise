@@ -1,4 +1,3 @@
-// Error handling
 // Open book modal
 
 import { useQuery } from '@tanstack/react-query'
@@ -13,19 +12,39 @@ import { useAuth } from '@/hooks/auth'
 import { api } from '@/lib/axios'
 import { formatDate } from '@/utils/formatDate'
 
-import { Author, Container, Description, Info } from './styles'
+import { Author, Container, Description, Error, Info } from './styles'
 
 export default function UserLastRating() {
 	const { hasSignedIn, user } = useAuth()
 
-	const { data: lastRating, isLoading } = useQuery<RatingWithBookDTO>({
+	const {
+		data: lastRating,
+		isLoading,
+		error,
+	} = useQuery<RatingWithBookDTO>({
 		queryKey: ['user-last-rating'],
 		queryFn: async () => {
-			const response = await api.get('/ratings/user-last-rating')
-			return response.data
+			try {
+				const response = await api.get('/ratings/user-last-rating')
+				return response.data
+			} catch (error) {
+				console.error('ERROR:: UserLastRating', error)
+			}
 		},
 		enabled: hasSignedIn,
 	})
+
+	if (error) {
+		return (
+			<Box
+				title="Sua última leitura"
+				link={{ label: 'Ver todas', href: `/profile/${user?.id}` }}
+				background="light"
+			>
+				<Error>Erro ao tentar carregar última avaliação.</Error>
+			</Box>
+		)
+	}
 
 	if (lastRating || isLoading) {
 		return (

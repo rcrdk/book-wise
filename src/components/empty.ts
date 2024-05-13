@@ -8,6 +8,7 @@ export const Empty = styled(Text, {
 	borderRadius: '$md',
 	fontSize: '$xs',
 	fontStyle: 'italic',
+	width: '100%',
 
 	variants: {
 		background: {

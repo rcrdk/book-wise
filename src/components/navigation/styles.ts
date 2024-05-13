@@ -6,6 +6,7 @@ import { styled } from '@/styles'
 
 export const Container = styled('header', {
 	position: 'sticky',
+	zIndex: '99',
 	top: '$space$5',
 	alignSelf: 'flex-start',
 	minHeight: 'calc(100dvh - ($space$5 * 2))',

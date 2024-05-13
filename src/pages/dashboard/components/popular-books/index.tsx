@@ -1,4 +1,3 @@
-// Error handling
 // Open book modal
 
 import { useQuery } from '@tanstack/react-query'
@@ -15,11 +14,19 @@ import { api } from '@/lib/axios'
 import { BookContainer, BookInfo, BookItem } from './styles'
 
 export default function PopularBooks() {
-	const { data: popularBooks, isLoading } = useQuery<PopularBooksDTO[]>({
+	const {
+		data: popularBooks,
+		isLoading,
+		error,
+	} = useQuery<PopularBooksDTO[]>({
 		queryKey: ['popular-books'],
 		queryFn: async () => {
-			const response = await api.get('/books/popular')
-			return response.data
+			try {
+				const response = await api.get('/books/popular')
+				return response.data
+			} catch (error) {
+				console.error('ERROR:: PopularBooks', error)
+			}
 		},
 	})
 
@@ -32,7 +39,8 @@ export default function PopularBooks() {
 				title="Livros populares"
 				link={{ label: 'Ver todos', href: '/explore' }}
 			>
-				{hasNotBooks && <Empty>Nenhum registo encontrado</Empty>}
+				{hasNotBooks && <Empty>Nenhum registo encontrado.</Empty>}
+				{error && <Empty>Erro ao tentar carregar livros.</Empty>}
 			</Box>
 
 			{(isLoading || hasBooks) && (

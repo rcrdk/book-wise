@@ -25,7 +25,7 @@ export default function Home() {
 
 	return (
 		<>
-			<NextSeo title="BookWise" description="" />
+			<NextSeo title="Acesse Sua Conta • BookWise" description="" />
 
 			<BaseLayout mode="auth">
 				<Brand>

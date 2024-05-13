@@ -2,7 +2,9 @@
 // Open book modal
 // Pagination
 
+import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
+import { useCallback, useRef, useState } from 'react'
 
 import Avatar from '@/components/avatar'
 import BookCover from '@/components/book-cover'
@@ -22,23 +24,57 @@ import {
 	FeedContainer,
 	FeedDatetime,
 	FeedItem,
+	FeedScroll,
 	FeedUser,
+	Pagination,
+	PaginationButton,
 } from './styles'
 
+interface FeedProps {
+	ratings: RatingWithBookDTO[]
+	hasNextPage: boolean
+	hasPrevPage: boolean
+}
+
 export default function RecentRatings() {
-	const { data: feed, isLoading } = useQuery<RatingWithBookDTO[]>({
-		queryKey: ['rating-feed'],
+	const [page, setPage] = useState(1)
+
+	const containerRef = useRef<HTMLDivElement>(null)
+
+	const { data: feed, isLoading } = useQuery<FeedProps>({
+		queryKey: ['rating-feed', page],
 		queryFn: async () => {
-			const response = await api.get('/ratings/feed')
+			const response = await api.get<FeedProps>('/ratings/feed', {
+				params: {
+					page,
+				},
+			})
+
 			return response.data
 		},
 	})
 
-	const hasRatings = !isLoading && feed && feed.length > 0
-	const hasNotRatings = !isLoading && feed && feed.length === 0
+	const handlePagination = useCallback((mode: 'prev' | 'next') => {
+		containerRef?.current?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start',
+			inline: 'start',
+		})
+
+		setTimeout(() => {
+			setPage((prev) => (mode === 'next' ? prev + 1 : prev - 1))
+		}, 1000)
+	}, [])
+
+	const hasRatings = !isLoading && feed && feed.ratings.length > 0
+	const hasNotRatings = !isLoading && feed && feed.ratings.length === 0
+
+	const hasPagination = feed && (feed.hasNextPage || feed.hasPrevPage)
 
 	return (
 		<>
+			<FeedScroll ref={containerRef} />
+
 			<Box title="Avaliações mais recentes">
 				{hasNotRatings && <Empty>Nenhum registo encontrado</Empty>}
 			</Box>
@@ -77,7 +113,7 @@ export default function RecentRatings() {
 						))}
 
 					{hasRatings &&
-						feed?.map((rating) => (
+						feed.ratings.map((rating) => (
 							<FeedItem key={rating.id} type="button">
 								<FeedUser>
 									<Avatar src={rating.user.avatar_url} />
@@ -107,6 +143,28 @@ export default function RecentRatings() {
 								</FeedBook>
 							</FeedItem>
 						))}
+
+					{hasPagination && (
+						<Pagination>
+							<PaginationButton
+								type="button"
+								onClick={() => handlePagination('prev')}
+								disabled={isLoading || page === 1}
+							>
+								<ArrowLeft />
+								Anteriores
+							</PaginationButton>
+
+							<PaginationButton
+								type="button"
+								onClick={() => handlePagination('next')}
+								disabled={isLoading || !feed.hasNextPage}
+							>
+								Próximas
+								<ArrowRight />
+							</PaginationButton>
+						</Pagination>
+					)}
 				</FeedContainer>
 			)}
 		</>

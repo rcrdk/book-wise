@@ -8,9 +8,17 @@ export default async function handler(
 ) {
 	if (req.method !== 'GET') return res.status(405).end()
 
-	const books = await prisma.rating.findMany({
-		// take: 4,
-		// skip: 12,
+	if (!req.query.page) {
+		return res.status(400).json({ message: 'Current page not defined.' })
+	}
+
+	const resultsPerPage = 12
+	const currentPage = Number(req.query.page)
+
+	const currentPageOffset =
+		currentPage === 1 ? 0 : resultsPerPage * (currentPage - 1)
+
+	const ratings = await prisma.rating.findMany({
 		orderBy: {
 			created_at: 'desc',
 		},
@@ -18,7 +26,19 @@ export default async function handler(
 			book: true,
 			user: true,
 		},
+		take: resultsPerPage,
+		skip: currentPageOffset,
 	})
 
-	return res.json(books)
+	const nextPageOffset = resultsPerPage * currentPage
+
+	const hasNextPage =
+		(await prisma.rating.count({
+			take: resultsPerPage,
+			skip: nextPageOffset,
+		})) > 0
+
+	const hasPrevPage = currentPage !== 1
+
+	return res.json({ ratings, hasNextPage, hasPrevPage })
 }

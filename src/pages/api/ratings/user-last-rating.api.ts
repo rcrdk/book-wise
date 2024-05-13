@@ -13,7 +13,7 @@ export default async function handler(
 
 	const session = await getServerSession(req, res, buildNextAuthOptions())
 
-	if (!session) return res.status(401).end('Acesso não autorizado.')
+	if (!session) return res.status(401).end('Unauthorized access.')
 
 	const userLastRating = await prisma.rating.findFirst({
 		where: {

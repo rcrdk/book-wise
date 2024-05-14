@@ -38,6 +38,7 @@ export const Container = styled('main', {
 		gridColumn: '1 / span 2',
 
 		'@media(max-width:899px)': {
+			order: 1,
 			gridColumn: '1',
 			marginBottom: 0,
 		},
@@ -48,8 +49,20 @@ export const LeftContainer = styled('div', {
 	display: 'flex',
 	flexDirection: 'column',
 	paddingBottom: '$5',
+
+	'@media(max-width:899px)': {
+		order: 3,
+	},
 })
 
 export const RightContainer = styled('div', {
 	paddingBottom: '$5',
+
+	'@media(max-width:899px)': {
+		order: 2,
+	},
+
+	'@media(max-width:575px)': {
+		paddingBottom: 0,
+	},
 })

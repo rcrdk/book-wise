@@ -5,7 +5,6 @@ import {
 	UserList,
 } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next/router'
 
 import Avatar from '@/components/avatar'
 import { Empty } from '@/components/empty'
@@ -17,30 +16,30 @@ import { formatDate } from '@/utils/formatDate'
 
 import { Container, Divider, Stat, Stats } from './styles'
 
-export default function ProfileUserInfo() {
-	const router = useRouter()
-	const { id } = router.query
+interface ProfileUserInfoProps {
+	user?: string | string[]
+}
 
+export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 	const {
 		data: profile,
 		isLoading,
 		error,
 	} = useQuery<ProfileStatsDTO>({
-		queryKey: ['profile', id],
+		queryKey: ['profile', user],
 		queryFn: async () => {
 			try {
 				const response = await api.get('/profile', {
 					params: {
-						id,
+						id: user,
 					},
 				})
-				console.log(response.data)
 				return response.data
 			} catch (error) {
 				console.error('ERROR:: UserInfo', error)
 			}
 		},
-		enabled: !!id,
+		enabled: !!user,
 	})
 
 	const hasProfile = !isLoading && profile
@@ -131,7 +130,7 @@ export default function ProfileUserInfo() {
 					<Stat>
 						<UserList weight="bold" />
 						<Heading size="md">{profile.stats.authors}</Heading>
-						<Text>Autores avaliados</Text>
+						<Text>Autores lidos</Text>
 					</Stat>
 
 					<Stat>

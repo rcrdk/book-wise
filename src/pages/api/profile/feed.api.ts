@@ -12,13 +12,29 @@ export default async function handler(
 		return res.status(400).json({ message: 'Current page not provied.' })
 	}
 
+	if (!req.query.user) {
+		return res.status(400).json({ message: 'User ID not provied.' })
+	}
+
+	const userId = String(req.query.user)
+	const searchByTitleQuery = req.query.search
+		? String(req.query.search)
+		: undefined
+
 	const resultsPerPage = 12
 	const currentPage = Number(req.query.page)
-
 	const currentPageOffset =
 		currentPage === 1 ? 0 : resultsPerPage * (currentPage - 1)
 
 	const ratings = await prisma.rating.findMany({
+		where: {
+			user_id: userId,
+			book: {
+				name: {
+					contains: searchByTitleQuery,
+				},
+			},
+		},
 		orderBy: {
 			created_at: 'desc',
 		},

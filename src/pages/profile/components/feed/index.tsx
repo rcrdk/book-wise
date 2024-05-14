@@ -4,9 +4,7 @@ import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useRef, useState } from 'react'
 
-import Avatar from '@/components/avatar'
 import BookCover from '@/components/book-cover'
-import Box from '@/components/box'
 import { Empty } from '@/components/empty'
 import { Heading } from '@/components/heading'
 import { Pagination, PaginationButton } from '@/components/pagination'
@@ -17,17 +15,23 @@ import { api } from '@/lib/axios'
 import { formatDate } from '@/utils/formatDate'
 
 import {
+	Container,
 	FeedBook,
 	FeedBookAuthor,
-	FeedBookDescription,
+	FeedBookInfo,
+	FeedBookTextSkeleton,
 	FeedContainer,
 	FeedDatetime,
 	FeedItem,
 	FeedScroll,
-	FeedUser,
 } from './styles'
 
-export default function RecentRatings() {
+interface ProfileFeedProps {
+	user?: string | string[]
+	search?: string
+}
+
+export default function ProfileFeed({ user, search }: ProfileFeedProps) {
 	const [page, setPage] = useState(1)
 
 	const containerRef = useRef<HTMLDivElement>(null)
@@ -37,20 +41,23 @@ export default function RecentRatings() {
 		isLoading,
 		error,
 	} = useQuery<FeedProps>({
-		queryKey: ['rating-feed', page],
+		queryKey: ['profile-rating-feed', page, String(user), search],
 		queryFn: async () => {
 			try {
-				const response = await api.get('/ratings/feed', {
+				const response = await api.get('/profile/feed', {
 					params: {
 						page,
+						user: String(user),
+						search,
 					},
 				})
 
 				return response.data
 			} catch (error) {
-				console.error('ERROR:: RecentRatings', error)
+				console.error('ERROR:: ProfileRecentRatings', error)
 			}
 		},
+		enabled: !!user,
 	})
 
 	const handlePagination = useCallback((mode: 'prev' | 'next') => {
@@ -72,77 +79,73 @@ export default function RecentRatings() {
 	const hasPagination = !error && feed && (feed.hasNextPage || feed.hasPrevPage)
 
 	return (
-		<>
+		<Container>
 			<FeedScroll ref={containerRef} />
 
-			<Box title="Avaliações mais recentes">
-				{hasNotRatings && <Empty>Nenhuma avaliação encontrada.</Empty>}
-				{error && <Empty>Erro ao tentar carregar avaliações.</Empty>}
-			</Box>
+			{hasNotRatings && (
+				<Empty background>
+					{search
+						? `Nenhuma avaliação encontrada com o titulo "${search}".`
+						: 'Nenhuma avaliação encontrada.'}
+				</Empty>
+			)}
+			{error && <Empty background>Erro ao tentar carregar avaliações.</Empty>}
 
 			{(isLoading || hasRatings) && (
 				<FeedContainer>
 					{isLoading &&
 						Array.from({ length: 6 }).map((_, i) => (
-							<FeedItem key={`fbr_${i}`} as="div">
-								<FeedUser>
-									<Avatar skeleton />
-									<div>
-										<Text skeleton>Carregando...</Text>
-										<FeedDatetime size="sm" skeleton>
-											Carregando...
-										</FeedDatetime>
-									</div>
-									<StarRating skeleton />
-								</FeedUser>
+							<div key={`prs_${i}`}>
+								<FeedDatetime skeleton>Carregando...</FeedDatetime>
 
-								<FeedBook>
-									<BookCover skeleton />
-									<div>
-										<Heading size="md" skeleton>
-											Carregando...
-										</Heading>
-										<FeedBookAuthor size="sm" skeleton>
-											Carregando...
-										</FeedBookAuthor>
-										<FeedBookDescription skeleton>...</FeedBookDescription>
-										<FeedBookDescription skeleton>...</FeedBookDescription>
-										<FeedBookDescription skeleton>...</FeedBookDescription>
-									</div>
-								</FeedBook>
-							</FeedItem>
+								<FeedItem as="div">
+									<FeedBook>
+										<BookCover skeleton />
+										<FeedBookInfo>
+											<Heading size="md" skeleton>
+												Carregando...
+											</Heading>
+											<FeedBookAuthor size="sm" skeleton>
+												Carregando...
+											</FeedBookAuthor>
+
+											<StarRating skeleton />
+										</FeedBookInfo>
+									</FeedBook>
+
+									<FeedBookTextSkeleton>
+										<Text skeleton>Carregando...</Text>
+										<Text skeleton>Carregando...</Text>
+										<Text skeleton>Carregando...</Text>
+									</FeedBookTextSkeleton>
+								</FeedItem>
+							</div>
 						))}
 
 					{hasRatings &&
 						feed.ratings.map((rating) => (
-							<FeedItem key={rating.id} type="button">
-								<FeedUser>
-									<Avatar src={rating.user.avatar_url} />
-									<div>
-										<Text>{rating.user.name}</Text>
-										<FeedDatetime
-											size="sm"
-											title={formatDate(rating.created_at)}
-										>
-											{formatDate(rating.created_at, 'relative')}
-										</FeedDatetime>
-									</div>
-									<StarRating rating={rating.rate} />
-								</FeedUser>
+							<div key={`pr_${rating.id}`}>
+								<FeedDatetime title={formatDate(rating.created_at)}>
+									{formatDate(rating.created_at, 'relative')}
+								</FeedDatetime>
 
-								<FeedBook>
-									<BookCover src={rating.book.cover_url} />
-									<div>
-										<Heading size="md">{rating.book.name}</Heading>
-										<FeedBookAuthor size="sm">
-											{rating.book.author}
-										</FeedBookAuthor>
-										<FeedBookDescription>
-											{rating.description}
-										</FeedBookDescription>
-									</div>
-								</FeedBook>
-							</FeedItem>
+								<FeedItem type="button">
+									<FeedBook>
+										<BookCover src={rating.book.cover_url} />
+
+										<FeedBookInfo>
+											<Heading size="md">{rating.book.name}</Heading>
+											<FeedBookAuthor size="sm">
+												{rating.book.author}
+											</FeedBookAuthor>
+
+											<StarRating rating={rating.rate} />
+										</FeedBookInfo>
+									</FeedBook>
+
+									<Text>{rating.description}</Text>
+								</FeedItem>
+							</div>
 						))}
 
 					{hasPagination && (
@@ -168,6 +171,6 @@ export default function RecentRatings() {
 					)}
 				</FeedContainer>
 			)}
-		</>
+		</Container>
 	)
 }

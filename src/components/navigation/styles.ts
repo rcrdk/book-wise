@@ -19,6 +19,7 @@ export const Container = styled('header', {
 	display: 'flex',
 	flexDirection: 'column',
 	alignItems: 'center',
+	boxShadow: '0 0 2rem 0 $colors$gray800',
 
 	'@media(max-width:1024px)': {
 		flexDirection: 'row',

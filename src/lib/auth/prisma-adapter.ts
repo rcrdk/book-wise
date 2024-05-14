@@ -13,8 +13,6 @@ export function PrismaAdapter(): Adapter {
 				},
 			})
 
-			console.log(user)
-
 			return {
 				id: prismaUser.id,
 				name: prismaUser.name,

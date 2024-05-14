@@ -8,6 +8,20 @@ export const Container = styled('div', {
 	alignItems: 'center',
 	textAlign: 'center',
 
+	'@media(min-width:1025px)': {
+		'@media(min-height:600px)': {
+			position: 'sticky',
+			top: '$8',
+			alignSelf: 'flex-start',
+		},
+	},
+
+	'@media(max-width:575px)': {
+		borderRadius: '$md',
+		background: '$gray700',
+		padding: '$6 $5',
+	},
+
 	[`> ${Text}`]: {
 		color: '$gray400',
 		marginTop: '$1',
@@ -27,6 +41,10 @@ export const Divider = styled('hr', {
 	border: 'none',
 	background: '$gradient-horizontal',
 	borderRadius: '$lg',
+
+	'@media(max-width:575px)': {
+		width: '33%',
+	},
 })
 
 export const Stats = styled('div', {
@@ -40,7 +58,8 @@ export const Stats = styled('div', {
 	},
 
 	'@media(max-width:575px)': {
-		gridTemplateColumns: '1fr',
+		gap: '$5',
+		// gridTemplateColumns: '1fr',
 	},
 })
 
@@ -50,9 +69,19 @@ export const Stat = styled('div', {
 	textAlign: 'left',
 	gap: '0 $5',
 
+	'@media(max-width:575px)': {
+		display: 'flex',
+		flexDirection: 'column',
+		textAlign: 'center',
+	},
+
 	[`> ${AvatarContainer}`]: {
 		gridRow: '1 / span 2',
 		alignSelf: 'center',
+
+		'@media(max-width:575px)': {
+			marginBottom: '$2',
+		},
 	},
 
 	svg: {
@@ -60,6 +89,17 @@ export const Stat = styled('div', {
 		gridRow: '1 / span 2',
 		color: '$green100',
 		alignSelf: 'center',
+
+		'@media(max-width:575px)': {
+			marginBottom: '$1',
+		},
+	},
+
+	[`> ${Text}`]: {
+		'@media(max-width:575px)': {
+			color: '$gray400',
+			fontSize: '$sm',
+		},
 	},
 
 	variants: {

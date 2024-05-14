@@ -5,6 +5,10 @@ export const Pagination = styled('div', {
 	gridTemplateColumns: '1fr 1fr',
 	gap: '$4',
 	marginTop: '$5',
+
+	'@media(max-width:575px)': {
+		marginTop: '$2',
+	},
 })
 
 export const PaginationButton = styled('button', {
@@ -19,6 +23,10 @@ export const PaginationButton = styled('button', {
 	background: '$gray600',
 	userSelect: 'none',
 	height: 'calc($space$10 * 1.33)',
+
+	'@media(max-width:575px)': {
+		height: '$space$10',
+	},
 
 	'&:disabled': {
 		cursor: 'not-allowed',

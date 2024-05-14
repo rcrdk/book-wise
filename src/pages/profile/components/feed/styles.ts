@@ -14,11 +14,20 @@ export const FeedContainer = styled('div', {
 	display: 'flex',
 	flexDirection: 'column',
 	gap: '$7',
+
+	'@media(max-width:575px)': {
+		gap: '$5',
+	},
 })
 
 export const FeedDatetime = styled(Text, {
 	marginBottom: '$4',
 	lineHeight: '$shorter',
+
+	'@media(max-width:575px)': {
+		fontSize: '$sm!important',
+		marginBottom: '$2',
+	},
 
 	'&:first-letter': {
 		textTransform: 'uppercase',
@@ -35,12 +44,16 @@ export const FeedDatetime = styled(Text, {
 
 export const FeedItem = styled('button', {
 	all: 'unset',
-	padding: '$6',
+	padding: '$5 $6',
 	borderRadius: '$md',
 	background: '$gray700',
 	width: '100%',
 	boxSizing: 'border-box',
 	display: 'block',
+
+	'@media(max-width:575px)': {
+		padding: '$4 $5',
+	},
 
 	'&[type]': {
 		cursor: 'pointer',
@@ -53,6 +66,12 @@ export const FeedItem = styled('button', {
 	'&:focus-visible': {
 		boxShadow: '$focusBody',
 	},
+
+	[`> ${Text}`]: {
+		'@media(max-width:575px)': {
+			fontSize: '$sm !important',
+		},
+	},
 })
 
 export const FeedBook = styled('div', {
@@ -60,6 +79,11 @@ export const FeedBook = styled('div', {
 	gridTemplateColumns: '6.75rem 1fr',
 	gap: '$5',
 	marginBottom: '$5',
+
+	'@media(max-width:575px)': {
+		marginBottom: '$4',
+		gridTemplateColumns: '5rem 1fr',
+	},
 })
 
 export const FeedBookInfo = styled('div', {

@@ -1,5 +1,5 @@
 import { CaretRight } from '@phosphor-icons/react'
-import { ReactNode, Ref, RefObject } from 'react'
+import { ReactNode } from 'react'
 
 import { Text } from '@/components/text'
 

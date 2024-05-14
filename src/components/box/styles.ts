@@ -2,6 +2,8 @@ import Link from 'next/link'
 
 import { styled } from '@/styles'
 
+import { Text } from '../text'
+
 export const BoxContainer = styled('section', {})
 
 export const BoxHeader = styled('header', {
@@ -9,6 +11,13 @@ export const BoxHeader = styled('header', {
 	alignItems: 'center',
 	justifyContent: 'space-between',
 	marginBottom: '$4',
+
+	[`> ${Text}`]: {
+		'@media(max-width:575px)': {
+			fontSize: '$sm!important',
+			marginBottom: '$2',
+		},
+	},
 })
 
 export const BoxHeaderLink = styled(Link, {

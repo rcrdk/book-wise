@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { AvatarContainer } from '@/components/avatar/styles'
 import { Text } from '@/components/text'
 import { styled } from '@/styles'
@@ -14,36 +16,50 @@ export const FeedScroll = styled('div', {
 	marginBottom: '$4',
 })
 
-export const FeedItem = styled('button', {
+export const FeedItem = styled('div', {
 	all: 'unset',
-	padding: '$6',
 	borderRadius: '$md',
 	background: '$gray700',
 	width: '100%',
 	boxSizing: 'border-box',
 
-	'&[type]': {
+	'&:has(button)': {
 		cursor: 'pointer',
 
 		'&:hover': {
 			background: '$gray700hover',
 		},
 	},
-
-	'&:focus-visible': {
-		boxShadow: '$focusBody',
-	},
 })
 
-export const FeedUser = styled('header', {
+export const FeedUser = styled(Link, {
+	all: 'unset',
 	display: 'grid',
 	alignItems: 'flex-start',
 	gridTemplateColumns: 'auto 1fr auto',
 	gap: '$4',
-	marginBottom: '$8',
+	width: '100%',
+	boxSizing: 'border-box',
+	padding: '$5 $6 $4',
+	borderRadius: '$md',
+	cursor: 'pointer',
+
+	'&:focus-visible': {
+		boxShadow: '$focusBody',
+	},
+
+	'@media(max-width:575px)': {
+		padding: '$4 $5 $3',
+		gap: '$1 $4',
+		gridTemplateColumns: 'auto 1fr',
+	},
 
 	[`> ${AvatarContainer}`]: {
 		alignSelf: 'center',
+
+		'@media(max-width:575px)': {
+			gridRow: '1 / span 2',
+		},
 	},
 })
 
@@ -65,10 +81,26 @@ export const FeedDatetime = styled(Text, {
 	},
 })
 
-export const FeedBook = styled('div', {
+export const FeedBook = styled('button', {
+	all: 'unset',
 	display: 'grid',
 	gridTemplateColumns: '6.75rem 1fr',
 	gap: '$5',
+	width: '100%',
+	boxSizing: 'border-box',
+	padding: '$4 $6 $5',
+	borderRadius: '$md',
+	cursor: 'pointer',
+
+	'&:focus-visible': {
+		boxShadow: '$focusBody',
+	},
+
+	'@media(max-width:575px)': {
+		padding: '$3 $5 $4',
+		gap: '$1 $5',
+		gridTemplateColumns: '5rem 1fr',
+	},
 })
 
 export const FeedBookAuthor = styled(Text, {
@@ -97,6 +129,10 @@ export const FeedBookDescription = styled(Text, {
 	textOverflow: 'ellipsis',
 	'-webkit-line-clamp': 3,
 	'-webkit-box-orient': 'vertical',
+
+	'@media(max-width:575px)': {
+		fontSize: '$sm !important',
+	},
 
 	variants: {
 		skeleton: {

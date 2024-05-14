@@ -17,6 +17,12 @@ export const Container = styled('div', {
 		marginBottom: '$8',
 	},
 
+	'@media(max-width:575px)': {
+		padding: '$4 $5',
+		gap: '$5',
+		gridTemplateColumns: '5rem 1fr',
+	},
+
 	'&[type]': {
 		cursor: 'pointer',
 
@@ -49,6 +55,10 @@ export const Author = styled(Text, {
 	color: '$gray400',
 	marginBottom: '$6',
 
+	'@media(max-width:575px)': {
+		marginBottom: '$3',
+	},
+
 	variants: {
 		skeleton: {
 			true: {
@@ -65,6 +75,10 @@ export const Description = styled(Text, {
 	textOverflow: 'ellipsis',
 	'-webkit-line-clamp': 2,
 	'-webkit-box-orient': 'vertical',
+
+	'@media(max-width:575px)': {
+		fontSize: '$sm !important',
+	},
 
 	variants: {
 		skeleton: {

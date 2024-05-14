@@ -6,4 +6,8 @@ export const Container = styled('div', {
 	flexShrink: 0,
 	color: '$purple100',
 	position: 'relative',
+
+	'@media(max-width:575px)': {
+		gap: '$px',
+	},
 })

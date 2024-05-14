@@ -27,6 +27,10 @@ export const BookItem = styled('button', {
 	width: '100%',
 	boxSizing: 'border-box',
 
+	'@media(max-width:575px)': {
+		gridTemplateColumns: '5rem 1fr',
+	},
+
 	'&:not(:last-child)': {
 		marginBottom: '$3',
 

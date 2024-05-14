@@ -85,7 +85,7 @@ export default function RecentRatings() {
 					{isLoading &&
 						Array.from({ length: 6 }).map((_, i) => (
 							<FeedItem key={`fbr_${i}`} as="div">
-								<FeedUser>
+								<FeedUser as="div">
 									<Avatar skeleton />
 									<div>
 										<Text skeleton>Carregando...</Text>
@@ -96,7 +96,7 @@ export default function RecentRatings() {
 									<StarRating skeleton />
 								</FeedUser>
 
-								<FeedBook>
+								<FeedBook as="div">
 									<BookCover skeleton />
 									<div>
 										<Heading size="md" skeleton>
@@ -115,8 +115,8 @@ export default function RecentRatings() {
 
 					{hasRatings &&
 						feed.ratings.map((rating) => (
-							<FeedItem key={rating.id} type="button">
-								<FeedUser>
+							<FeedItem key={rating.id}>
+								<FeedUser href={`/profile/${rating.user.id}`}>
 									<Avatar src={rating.user.avatar_url} />
 									<div>
 										<Text>{rating.user.name}</Text>
@@ -130,7 +130,7 @@ export default function RecentRatings() {
 									<StarRating rating={rating.rate} />
 								</FeedUser>
 
-								<FeedBook>
+								<FeedBook type="button">
 									<BookCover src={rating.book.cover_url} />
 									<div>
 										<Heading size="md">{rating.book.name}</Heading>

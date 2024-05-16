@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 
 import BookCover from '@/components/book-cover'
 import Box from '@/components/box'
@@ -11,7 +12,7 @@ import { GetUserLastRatingResponse } from '@/interfaces/get-user-last-rating'
 import { api } from '@/lib/axios'
 import { formatDate } from '@/utils/formatDate'
 
-import { Author, Container, Description, Error, Info } from './styles'
+import { Author, Container, Description, Info } from './styles'
 
 export default function UserLastRating() {
 	const { hasSignedIn, user } = useAuth()
@@ -28,27 +29,14 @@ export default function UserLastRating() {
 				const response = await api.get('/get-user-last-rating')
 				return response.data
 			} catch (error) {
-				// toast
-
+				toast.error('Erro ao tentar carregar sua última avaliação.')
 				console.error('ERROR:: UserLastRating', error)
 			}
 		},
 		enabled: hasSignedIn && !!user,
 	})
 
-	if (error && !!user) {
-		return (
-			<Box
-				title="Sua última leitura"
-				link={{ label: 'Ver todas', href: `/profile/${user.id}` }}
-				background="light"
-			>
-				<Error>Erro ao tentar carregar última avaliação.</Error>
-			</Box>
-		)
-	}
-
-	if (lastRating || isLoading) {
+	if (error || lastRating || isLoading) {
 		return (
 			<Box
 				title="Sua última leitura"
@@ -58,7 +46,7 @@ export default function UserLastRating() {
 				}}
 				background="light"
 			>
-				{isLoading && (
+				{(error || isLoading) && (
 					<Container>
 						<BookCover skeleton />
 						<div>

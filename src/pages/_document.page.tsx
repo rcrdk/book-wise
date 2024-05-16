@@ -13,7 +13,7 @@ export default function Document() {
 					crossOrigin="anonymous"
 				/>
 				<link
-					href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;700&display=swap"
+					href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;700&display=swap"
 					rel="stylesheet"
 				/>
 				<link rel="icon" type="image/svg+xml" href="/favicon.svg" />

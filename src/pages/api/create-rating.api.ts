@@ -12,8 +12,6 @@ export default async function handler(
 ) {
 	if (req.method !== 'POST') return res.status(405).end()
 
-	// throw new Error()
-
 	const session = await getServerSession(req, res, buildNextAuthOptions())
 
 	if (!session) {

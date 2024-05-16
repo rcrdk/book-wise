@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import Avatar from '@/components/avatar'
 import BookCover from '@/components/book-cover'
@@ -49,8 +50,7 @@ export default function RecentRatings() {
 
 				return response.data
 			} catch (error) {
-				// toast
-
+				toast.error('Erro ao tentar carregar as avaliações recentes.')
 				console.error('ERROR:: RecentRatings', error)
 			}
 		},

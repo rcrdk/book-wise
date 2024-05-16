@@ -1,8 +1,7 @@
-// Open book modal
-
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import BookCover from '@/components/book-cover'
 import { Empty } from '@/components/empty'
@@ -57,7 +56,7 @@ export default function ProfileFeed({ user, search }: ProfileFeedProps) {
 
 				return response.data
 			} catch (error) {
-				// toast
+				toast.error('Erro ao tentar carregar as avaliações recentes do perfil.')
 				console.error('ERROR:: ProfileRecentRatings', error)
 			}
 		},

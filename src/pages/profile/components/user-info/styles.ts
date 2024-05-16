@@ -59,7 +59,6 @@ export const Stats = styled('div', {
 
 	'@media(max-width:575px)': {
 		gap: '$5',
-		// gridTemplateColumns: '1fr',
 	},
 })
 

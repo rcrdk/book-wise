@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 
 import BookCover from '@/components/book-cover'
 import Box from '@/components/box'
@@ -26,7 +27,7 @@ export default function PopularBooks() {
 				const response = await api.get('/get-some-popular-books')
 				return response.data
 			} catch (error) {
-				// toast
+				toast.error('Erro ao tentar carregar os livros populares.')
 				console.error('ERROR:: PopularBooks', error)
 			}
 		},

@@ -57,10 +57,12 @@ export const Nav = styled('nav', {
 	flexGrow: 1,
 	padding: '$6 0',
 	gap: '$4',
+	minWidth: '6.75rem',
 
 	'@media(max-width:1024px)': {
 		padding: '$2 0',
 		paddingLeft: '$1',
+		minWidth: 'inherit',
 	},
 })
 

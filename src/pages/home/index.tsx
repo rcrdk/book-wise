@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 import { useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 import BrandImage from '@/assets/brand.png'
 import { Heading } from '@/components/heading'
@@ -17,11 +18,15 @@ export default function Home() {
 
 	const { hasSignedIn } = useAuth()
 
-	// const hasAuthError = !!router.query.error
-
 	useEffect(() => {
 		if (hasSignedIn) router.push('/dashboard')
 	}, [hasSignedIn, router])
+
+	useEffect(() => {
+		if (router.query.error) {
+			toast.error('Aconteceu algu erro durante a autenticação.')
+		}
+	}, [router])
 
 	return (
 		<>
@@ -33,7 +38,6 @@ export default function Home() {
 				</Brand>
 
 				<Container>
-					{/* {hasAuthError && 'Erro de autenticação'} */}
 					<Box>
 						<Heading as="h1" size="2xl">
 							Boas vindas!

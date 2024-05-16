@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { createContext, ReactNode, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import { GetBookResponse } from '@/interfaces/get-book'
 import { GetBookRatingsResponse } from '@/interfaces/get-book-ratings'
@@ -80,9 +81,7 @@ export function BookContextProvider({ children }: BookContextProviderProps) {
 				return response.data
 			} catch (error) {
 				onUnselectBook()
-
-				// Lançar um toast
-
+				toast.error('Erro ao tentar carregar as informações do livro.')
 				console.error('ERROR:: BookInformations', error)
 			}
 		},
@@ -106,16 +105,13 @@ export function BookContextProvider({ children }: BookContextProviderProps) {
 				return response.data
 			} catch (error) {
 				onUnselectBook()
-
-				// Lançar um toast
-
+				toast.error('Erro ao tentar carregar as avaliações do livro.')
 				console.error('ERROR:: BookRatings', error)
 			}
 		},
 		enabled: !!selectedBookId,
 	})
 
-	// Atualizar informações do livro após postar a avaliação e fazer o scroll
 	function updateBookRatingsCache(
 		{ rate, description }: RateBookSchema,
 		previousCache?: GetBookRatingsResponse[],
@@ -173,8 +169,7 @@ export function BookContextProvider({ children }: BookContextProviderProps) {
 				return { previousRatings: cached }
 			},
 			onError: (error, __, context) => {
-				// Tratar o erro (usar um toast)
-
+				toast.error('Erro ao tentar enviar sua avaliação.')
 				console.error('SubmitRating:: ', error)
 
 				if (context?.previousRatings) {
@@ -186,7 +181,7 @@ export function BookContextProvider({ children }: BookContextProviderProps) {
 			},
 			onSuccess() {
 				onToggleRateBookForm()
-				// Tratar sucesso (usar um toast)
+				toast.success('Sua avaliação foi publicada.')
 			},
 		})
 

@@ -58,7 +58,6 @@ export const Stats = styled('div', {
 
 	'@media(max-width:575px)': {
 		paddingTop: '$5',
-		// gridTemplateColumns: 'auto auto',
 	},
 })
 

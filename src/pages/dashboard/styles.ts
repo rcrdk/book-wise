@@ -50,4 +50,13 @@ export const LeftContainer = styled('div', {
 
 export const RightContainer = styled('div', {
 	paddingBottom: '$5',
+	alignSelf: 'flex-start',
+
+	'@media(min-width:1025px)': {
+		'@media(min-height:665px)': {
+			position: 'sticky',
+			top: '$8',
+			alignSelf: 'flex-start',
+		},
+	},
 })

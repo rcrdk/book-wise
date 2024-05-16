@@ -20,6 +20,7 @@ export default function Dashboard() {
 
 					<LeftContainer>
 						<UserLastRating />
+
 						<RecentRatings />
 					</LeftContainer>
 

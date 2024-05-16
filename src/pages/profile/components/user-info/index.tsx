@@ -5,6 +5,7 @@ import {
 	UserList,
 } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 
 import Avatar from '@/components/avatar'
 import { Heading } from '@/components/heading'
@@ -35,8 +36,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 				})
 				return response.data
 			} catch (error) {
-				// toast
-
+				toast.error('Erro ao tentar carregar as informações do perfil.')
 				console.error('ERROR:: UserInfo', error)
 			}
 		},

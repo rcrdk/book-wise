@@ -24,6 +24,10 @@ export const Input = styled('input', {
 
 	'&:focus': {
 		borderColor: '$purple100',
+
+		'& + button': {
+			color: '$purple100',
+		},
 	},
 })
 
@@ -43,6 +47,7 @@ export const Button = styled('button', {
 
 	'&:focus-visible': {
 		boxShadow: '$focus',
+		color: '$purple100',
 	},
 
 	'&:hover': {

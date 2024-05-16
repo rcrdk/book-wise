@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 
 import Navigation from '@/components/navigation'
+import Book from '@/pages/book'
 
 import { BaseContainer } from './styles'
 
@@ -19,6 +20,7 @@ export default function BaseLayout({
 				<>
 					<Navigation />
 					<div>{children}</div>
+					<Book />
 				</>
 			) : (
 				children

@@ -1,25 +1,3 @@
-// import { Session } from 'next-auth'
-// import { useSession } from 'next-auth/react'
-// import { ReactNode, createContext } from 'react'
-
-// interface AuthContextType {
-// 	session: Session
-// }
-
-// export const AuthContext = createContext({} as AuthContextType)
-
-// interface AuthProviderProps {
-// 	children: ReactNode
-// }
-
-// export function AuthContextProvider({ children }: AuthProviderProps) {
-// 	const session = useSession()
-
-// 	return (
-// 		<AuthContext.Provider value={{ session }}>{children}</AuthContext.Provider>
-// 	)
-// }
-
 import { User } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import { createContext, ReactNode, useEffect, useState } from 'react'

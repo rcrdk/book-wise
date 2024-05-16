@@ -5,9 +5,10 @@ import { useState } from 'react'
 
 import Title from '@/components/title'
 import BaseLayout from '@/layout/base'
+import { ProfileSearchBookRatedSchema } from '@/schema/profile-search-book-rated'
 
 import ProfileFeed from './components/feed'
-import ProfileSearch, { ProfileSchemaType } from './components/search'
+import ProfileSearch from './components/search'
 import ProfileUserInfo from './components/user-info'
 import { Container, LeftContainer, RightContainer } from './styles'
 
@@ -17,13 +18,13 @@ export default function Profile() {
 	const router = useRouter()
 	const { id: userId } = router.query
 
-	const handleSearch = (data: ProfileSchemaType) => {
+	const handleSearch = (data: ProfileSearchBookRatedSchema) => {
 		setSearchQuery(data.q)
 	}
 
 	return (
 		<>
-			<NextSeo title="Meu Perfil • BookWise" description="" />
+			<NextSeo title="Perfil • BookWise" description="" />
 
 			<BaseLayout>
 				<Container>

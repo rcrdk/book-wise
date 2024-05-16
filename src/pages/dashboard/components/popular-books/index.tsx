@@ -1,5 +1,3 @@
-// Open book modal
-
 import { useQuery } from '@tanstack/react-query'
 
 import BookCover from '@/components/book-cover'
@@ -8,23 +6,27 @@ import { Empty } from '@/components/empty'
 import { Heading } from '@/components/heading'
 import StarRating from '@/components/star-rating'
 import { Text } from '@/components/text'
-import { PopularBooksDTO } from '@/dtos/books/popular-books'
+import { useBook } from '@/hooks/book'
+import { GetSomePopularBooksResponse } from '@/interfaces/get-some-popular-books'
 import { api } from '@/lib/axios'
 
 import { BookContainer, BookInfo, BookItem } from './styles'
 
 export default function PopularBooks() {
+	const { onSelectBook } = useBook()
+
 	const {
 		data: popularBooks,
 		isLoading,
 		error,
-	} = useQuery<PopularBooksDTO[]>({
+	} = useQuery<GetSomePopularBooksResponse[]>({
 		queryKey: ['popular-books'],
 		queryFn: async () => {
 			try {
-				const response = await api.get('/books/popular')
+				const response = await api.get('/get-some-popular-books')
 				return response.data
 			} catch (error) {
+				// toast
 				console.error('ERROR:: PopularBooks', error)
 			}
 		},
@@ -40,12 +42,11 @@ export default function PopularBooks() {
 				link={{ label: 'Ver todos', href: '/explore' }}
 			>
 				{hasNotBooks && <Empty>Nenhum registo encontrado.</Empty>}
-				{error && <Empty>Erro ao tentar carregar livros.</Empty>}
 			</Box>
 
-			{(isLoading || hasBooks) && (
+			{(isLoading || hasBooks || error) && (
 				<BookContainer>
-					{isLoading &&
+					{(isLoading || error) &&
 						Array.from({ length: 4 }).map((_, i) => (
 							<BookItem key={`pbd_${i}`} as="div">
 								<BookCover skeleton />
@@ -63,7 +64,11 @@ export default function PopularBooks() {
 
 					{hasBooks &&
 						popularBooks?.map((book) => (
-							<BookItem key={book.id} type="button">
+							<BookItem
+								key={book.id}
+								type="button"
+								onClick={() => onSelectBook(book.id)}
+							>
 								<BookCover src={book.cover_url} />
 								<BookInfo>
 									<Heading size="md">{book.name}</Heading>

@@ -10,7 +10,8 @@ import { Heading } from '@/components/heading'
 import { Pagination, PaginationButton } from '@/components/pagination'
 import StarRating from '@/components/star-rating'
 import { Text } from '@/components/text'
-import { FeedProps } from '@/dtos/ratings/feed'
+import { useBook } from '@/hooks/book'
+import { GetRecentRatingsByProfileResponse } from '@/interfaces/get-recent-ratings-by-profile'
 import { api } from '@/lib/axios'
 import { formatDate } from '@/utils/formatDate'
 
@@ -32,6 +33,8 @@ interface ProfileFeedProps {
 }
 
 export default function ProfileFeed({ user, search }: ProfileFeedProps) {
+	const { onSelectBook } = useBook()
+
 	const [page, setPage] = useState(1)
 
 	const containerRef = useRef<HTMLDivElement>(null)
@@ -40,11 +43,11 @@ export default function ProfileFeed({ user, search }: ProfileFeedProps) {
 		data: feed,
 		isLoading,
 		error,
-	} = useQuery<FeedProps>({
+	} = useQuery<GetRecentRatingsByProfileResponse>({
 		queryKey: ['profile-rating-feed', page, String(user), search],
 		queryFn: async () => {
 			try {
-				const response = await api.get('/profile/feed', {
+				const response = await api.get('/get-recent-ratings-by-profile', {
 					params: {
 						page,
 						user: String(user),
@@ -54,6 +57,7 @@ export default function ProfileFeed({ user, search }: ProfileFeedProps) {
 
 				return response.data
 			} catch (error) {
+				// toast
 				console.error('ERROR:: ProfileRecentRatings', error)
 			}
 		},
@@ -89,11 +93,10 @@ export default function ProfileFeed({ user, search }: ProfileFeedProps) {
 						: 'Nenhuma avaliação encontrada.'}
 				</Empty>
 			)}
-			{error && <Empty background>Erro ao tentar carregar avaliações.</Empty>}
 
-			{(isLoading || hasRatings) && (
+			{(error || isLoading || hasRatings) && (
 				<FeedContainer>
-					{isLoading &&
+					{(error || isLoading) &&
 						Array.from({ length: 6 }).map((_, i) => (
 							<div key={`prs_${i}`}>
 								<FeedDatetime skeleton>Carregando...</FeedDatetime>
@@ -129,7 +132,10 @@ export default function ProfileFeed({ user, search }: ProfileFeedProps) {
 									{formatDate(rating.created_at, 'relative')}
 								</FeedDatetime>
 
-								<FeedItem type="button">
+								<FeedItem
+									type="button"
+									onClick={() => onSelectBook(rating.book_id)}
+								>
 									<FeedBook>
 										<BookCover src={rating.book.cover_url} />
 

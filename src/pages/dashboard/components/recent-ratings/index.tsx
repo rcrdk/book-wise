@@ -1,5 +1,3 @@
-// Open book modal
-
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useRef, useState } from 'react'
@@ -12,7 +10,8 @@ import { Heading } from '@/components/heading'
 import { Pagination, PaginationButton } from '@/components/pagination'
 import StarRating from '@/components/star-rating'
 import { Text } from '@/components/text'
-import { FeedProps } from '@/dtos/ratings/feed'
+import { useBook } from '@/hooks/book'
+import { GetRecentRatingsResponse } from '@/interfaces/get-recent-ratings'
 import { api } from '@/lib/axios'
 import { formatDate } from '@/utils/formatDate'
 
@@ -28,6 +27,8 @@ import {
 } from './styles'
 
 export default function RecentRatings() {
+	const { onSelectBook } = useBook()
+
 	const [page, setPage] = useState(1)
 
 	const containerRef = useRef<HTMLDivElement>(null)
@@ -36,11 +37,11 @@ export default function RecentRatings() {
 		data: feed,
 		isLoading,
 		error,
-	} = useQuery<FeedProps>({
+	} = useQuery<GetRecentRatingsResponse>({
 		queryKey: ['rating-feed', page],
 		queryFn: async () => {
 			try {
-				const response = await api.get('/ratings/feed', {
+				const response = await api.get('/get-recent-ratings', {
 					params: {
 						page,
 					},
@@ -48,6 +49,8 @@ export default function RecentRatings() {
 
 				return response.data
 			} catch (error) {
+				// toast
+
 				console.error('ERROR:: RecentRatings', error)
 			}
 		},
@@ -77,12 +80,11 @@ export default function RecentRatings() {
 
 			<Box title="Avaliações mais recentes">
 				{hasNotRatings && <Empty>Nenhuma avaliação encontrada.</Empty>}
-				{error && <Empty>Erro ao tentar carregar avaliações.</Empty>}
 			</Box>
 
-			{(isLoading || hasRatings) && (
+			{(isLoading || hasRatings || error) && (
 				<FeedContainer>
-					{isLoading &&
+					{(isLoading || error) &&
 						Array.from({ length: 6 }).map((_, i) => (
 							<FeedItem key={`fbr_${i}`} as="div">
 								<FeedUser as="div">
@@ -130,7 +132,10 @@ export default function RecentRatings() {
 									<StarRating rating={rating.rate} />
 								</FeedUser>
 
-								<FeedBook type="button">
+								<FeedBook
+									type="button"
+									onClick={() => onSelectBook(rating.book_id)}
+								>
 									<BookCover src={rating.book.cover_url} />
 									<div>
 										<Heading size="md">{rating.book.name}</Heading>

@@ -1,23 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+
+import {
+	ProfileSearchBookRatedSchema,
+	profileSearchBookRatedSchema,
+} from '@/schema/profile-search-book-rated'
 
 import { Button, Container, Input } from './styles'
 
-const profileSearchFormSchema = z.object({
-	q: z.string().optional(),
-})
-
-export type ProfileSchemaType = z.infer<typeof profileSearchFormSchema>
-
 interface ProfileSearchProps {
-	onSearch: (data: ProfileSchemaType) => void
+	onSearch: (data: ProfileSearchBookRatedSchema) => void
 }
 
 export default function ProfileSearch({ onSearch }: ProfileSearchProps) {
-	const { register, handleSubmit } = useForm<ProfileSchemaType>({
-		resolver: zodResolver(profileSearchFormSchema),
+	const { register, handleSubmit } = useForm<ProfileSearchBookRatedSchema>({
+		resolver: zodResolver(profileSearchBookRatedSchema),
 	})
 
 	return (

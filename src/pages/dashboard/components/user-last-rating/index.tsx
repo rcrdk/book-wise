@@ -1,5 +1,3 @@
-// Open book modal
-
 import { useQuery } from '@tanstack/react-query'
 
 import BookCover from '@/components/book-cover'
@@ -7,8 +5,9 @@ import Box from '@/components/box'
 import { Heading } from '@/components/heading'
 import StarRating from '@/components/star-rating'
 import { Text } from '@/components/text'
-import { RatingWithBookDTO } from '@/dtos/ratings/rating-with-book'
 import { useAuth } from '@/hooks/auth'
+import { useBook } from '@/hooks/book'
+import { GetUserLastRatingResponse } from '@/interfaces/get-user-last-rating'
 import { api } from '@/lib/axios'
 import { formatDate } from '@/utils/formatDate'
 
@@ -16,29 +15,32 @@ import { Author, Container, Description, Error, Info } from './styles'
 
 export default function UserLastRating() {
 	const { hasSignedIn, user } = useAuth()
+	const { onSelectBook } = useBook()
 
 	const {
 		data: lastRating,
 		isLoading,
 		error,
-	} = useQuery<RatingWithBookDTO>({
+	} = useQuery<GetUserLastRatingResponse>({
 		queryKey: ['user-last-rating'],
 		queryFn: async () => {
 			try {
-				const response = await api.get('/ratings/user-last-rating')
+				const response = await api.get('/get-user-last-rating')
 				return response.data
 			} catch (error) {
+				// toast
+
 				console.error('ERROR:: UserLastRating', error)
 			}
 		},
-		enabled: hasSignedIn,
+		enabled: hasSignedIn && !!user,
 	})
 
-	if (error) {
+	if (error && !!user) {
 		return (
 			<Box
 				title="Sua última leitura"
-				link={{ label: 'Ver todas', href: `/profile/${user?.id}` }}
+				link={{ label: 'Ver todas', href: `/profile/${user.id}` }}
 				background="light"
 			>
 				<Error>Erro ao tentar carregar última avaliação.</Error>
@@ -50,7 +52,10 @@ export default function UserLastRating() {
 		return (
 			<Box
 				title="Sua última leitura"
-				link={{ label: 'Ver todas', href: `/profile/${user?.id}` }}
+				link={{
+					label: 'Ver todas',
+					href: user ? `/profile/${user.id}` : '/dashboard',
+				}}
 				background="light"
 			>
 				{isLoading && (
@@ -76,7 +81,11 @@ export default function UserLastRating() {
 				)}
 
 				{!isLoading && lastRating && (
-					<Container as="button" type="button">
+					<Container
+						as="button"
+						type="button"
+						onClick={() => onSelectBook(lastRating.book_id)}
+					>
 						<BookCover src={lastRating.book.cover_url} />
 						<div>
 							<Info>
@@ -86,8 +95,8 @@ export default function UserLastRating() {
 								<StarRating rating={lastRating.rate} />
 							</Info>
 							<Heading size="lg">{lastRating.book.name}</Heading>
-							<Author size="sm">{lastRating?.book.author}</Author>
-							<Description>{lastRating?.description}</Description>
+							<Author size="sm">{lastRating.book.author}</Author>
+							<Description>{lastRating.description}</Description>
 						</div>
 					</Container>
 				)}

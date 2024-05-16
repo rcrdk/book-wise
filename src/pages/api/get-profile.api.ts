@@ -8,10 +8,10 @@ export default async function handler(
 ) {
 	if (req.method !== 'GET') return res.status(405).end()
 
-	if (!req.query.id)
-		return res.status(400).json({ message: 'User id not provied.' })
+	if (!req.query.user)
+		return res.status(400).json({ message: 'User ID not provied.' })
 
-	const userId = String(req.query.id)
+	const userId = String(req.query.user)
 
 	const user = await prisma.user.findFirstOrThrow({
 		where: {
@@ -84,7 +84,7 @@ export default async function handler(
 			pagesReaded,
 			rated: allRatingsWithoutDuplicates.length,
 			authors: allAuthorsWithoutDuplicates.length,
-			mostReadedCategory: mostReadedCategory?.name,
+			mostReadedCategory: pagesReaded ? mostReadedCategory?.name : null,
 		},
 	})
 }

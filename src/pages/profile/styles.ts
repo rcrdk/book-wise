@@ -25,8 +25,6 @@ export const Container = styled('main', {
 
 	'@media(max-width:899px)': {
 		gridTemplateColumns: '1fr',
-		// display: 'flex',
-		// flexDirection: 'column-reverse',
 		gap: '$8',
 	},
 

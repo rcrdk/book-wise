@@ -7,10 +7,9 @@ import {
 import { useQuery } from '@tanstack/react-query'
 
 import Avatar from '@/components/avatar'
-import { Empty } from '@/components/empty'
 import { Heading } from '@/components/heading'
 import { Text } from '@/components/text'
-import { ProfileStatsDTO } from '@/dtos/profile'
+import { GetProfileResponse } from '@/interfaces/get-profile'
 import { api } from '@/lib/axios'
 import { formatDate } from '@/utils/formatDate'
 
@@ -25,17 +24,19 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 		data: profile,
 		isLoading,
 		error,
-	} = useQuery<ProfileStatsDTO>({
+	} = useQuery<GetProfileResponse>({
 		queryKey: ['profile', user],
 		queryFn: async () => {
 			try {
-				const response = await api.get('/profile', {
+				const response = await api.get('/get-profile', {
 					params: {
-						id: user,
+						user,
 					},
 				})
 				return response.data
 			} catch (error) {
+				// toast
+
 				console.error('ERROR:: UserInfo', error)
 			}
 		},
@@ -44,15 +45,7 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 
 	const hasProfile = !isLoading && profile
 
-	if (error) {
-		return (
-			<Container>
-				<Empty background>Erro ao carregar dados do perfil.</Empty>
-			</Container>
-		)
-	}
-
-	if (isLoading) {
+	if (error || isLoading) {
 		return (
 			<Container>
 				<Avatar skeleton />
@@ -135,7 +128,9 @@ export default function ProfileUserInfo({ user }: ProfileUserInfoProps) {
 
 					<Stat>
 						<BookmarkSimple weight="bold" />
-						<Heading size="md">{profile.stats.mostReadedCategory}</Heading>
+						<Heading size="md">
+							{profile.stats.mostReadedCategory ?? '-'}
+						</Heading>
 						<Text>Categoria mais lida</Text>
 					</Stat>
 				</Stats>

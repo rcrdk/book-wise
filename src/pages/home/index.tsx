@@ -24,7 +24,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if (router.query.error) {
-			toast.error('Aconteceu algu erro durante a autenticação.')
+			toast.error('Aconteceu algum erro durante a autenticação.')
 		}
 	}, [router])
 
@@ -34,7 +34,7 @@ export default function Home() {
 
 			<BaseLayout mode="auth">
 				<Brand>
-					<Image src={BrandImage} alt="" priority={true} fetchPriority="low" />
+					<Image src={BrandImage} alt="" />
 				</Brand>
 
 				<Container>

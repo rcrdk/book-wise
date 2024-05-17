@@ -6,6 +6,7 @@ import {
 	UserCircle,
 } from '@phosphor-icons/react'
 import { SignOut } from '@phosphor-icons/react/dist/ssr'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { signOut } from 'next-auth/react'
@@ -37,7 +38,9 @@ export default function Navigation() {
 
 	return (
 		<Container>
-			<Brand src={BrandImage} alt="" priority={true} fetchPriority="low" />
+			<Brand href="/dashboard">
+				<Image src={BrandImage} alt="" priority={true} />
+			</Brand>
 
 			<LargeNav>
 				<Nav>
@@ -142,7 +145,7 @@ export default function Navigation() {
 							{hasSignedIn && (
 								<NavLink
 									href={`/profile/${user?.id}`}
-									active={router.pathname.includes(`/profile/${user?.id}`)}
+									active={router.asPath.includes(`/profile/${user?.id}`)}
 								>
 									<UserCircle />
 									Perfil

@@ -14,7 +14,7 @@ export default function BookCover(props: BookCoverProps) {
 			{props.skeleton && <Skeleton />}
 
 			<BookCoverImage {...props} />
-			<BookCoverFallback delayMs={600}>
+			<BookCoverFallback>
 				<Book />
 			</BookCoverFallback>
 		</BookCoverContainer>

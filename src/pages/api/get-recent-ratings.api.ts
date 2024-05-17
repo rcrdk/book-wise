@@ -30,15 +30,14 @@ export default async function handler(
 		skip: currentPageOffset,
 	})
 
-	const nextPageOffset = resultsPerPage * (currentPage + 1)
-
-	const hasNextPage =
-		(await prisma.rating.count({
-			take: resultsPerPage,
-			skip: nextPageOffset,
-		})) > 0
+	const checkForNextPage = (await prisma.rating.count()) / resultsPerPage
 
 	const hasPrevPage = currentPage !== 1
+	const hasNextPage = checkForNextPage > currentPage
 
-	return res.json({ ratings, hasNextPage, hasPrevPage })
+	return res.json({
+		ratings,
+		hasNextPage,
+		hasPrevPage,
+	})
 }

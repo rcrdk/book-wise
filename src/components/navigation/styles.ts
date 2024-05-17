@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 import BackgroundImage from '@/assets/navigation-left.png'
@@ -29,7 +28,7 @@ export const Container = styled('header', {
 	},
 })
 
-export const Brand = styled(Image, {
+export const Brand = styled(Link, {
 	maxWidth: '66%',
 	margin: '$10 0',
 

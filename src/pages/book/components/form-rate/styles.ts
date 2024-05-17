@@ -241,6 +241,10 @@ export const FormButton = styled('button', {
 		background: '$gray600hover',
 	},
 
+	'&:focus-visible': {
+		boxShadow: '$focus',
+	},
+
 	variants: {
 		loading: {
 			true: {

@@ -1,7 +1,5 @@
 import { styled } from '@/styles'
 
-import { Heading } from '../heading'
-
 export const Container = styled('div', {
 	display: 'flex',
 	alignItems: 'center',
@@ -11,8 +9,6 @@ export const Container = styled('div', {
 	'@media(max-width:1024px)': {
 		margin: '$8 0',
 	},
-
-	[`> ${Heading}`]: {},
 
 	svg: {
 		fontSize: 'calc($2xl * 1.5)',

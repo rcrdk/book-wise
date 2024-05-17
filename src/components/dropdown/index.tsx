@@ -26,7 +26,7 @@ const Trigger = ({ children }: DropdownTriggerProps) => (
 
 const Menu = (props: DropdownMenuProps) => (
 	<DropdownMenu.Portal>
-		<DropdownMenu.Content {...props}>
+		<DropdownMenu.Content {...props} style={{ zIndex: 100 }}>
 			<DropdownContent>{props.children}</DropdownContent>
 		</DropdownMenu.Content>
 	</DropdownMenu.Portal>

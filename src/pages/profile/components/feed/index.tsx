@@ -71,7 +71,7 @@ export default function ProfileFeed({ user, search }: ProfileFeedProps) {
 		})
 
 		setTimeout(() => {
-			setPage((prev) => (mode === 'next' ? prev + 1 : prev - 1))
+			setPage((prev) => (mode === 'next' ? ++prev : --prev))
 		}, 1000)
 	}, [])
 

@@ -1,10 +1,11 @@
-import Title from '@/components/title'
+import { Container as Title } from '@/components/title/styles'
 import { styled } from '@/styles'
 
 export const Container = styled('main', {
 	display: 'grid',
-
+	gridTemplateColumns: '1fr 320px',
 	gap: '0 calc($10 + $6)',
+	alignItems: 'center',
 	padding: '0 calc(($10 * 2) + $4)',
 
 	'@media(max-width:1399px)': {
@@ -23,18 +24,16 @@ export const Container = styled('main', {
 
 	'@media(max-width:899px)': {
 		gap: '$8',
+		gridTemplateColumns: '1fr 260px',
 	},
 
 	'@media(max-width:575px)': {
 		padding: '0',
+		gridTemplateColumns: '1fr',
 	},
 
 	[`> ${Title}`]: {
-		gridColumn: '1 / span 2',
-
 		'@media(max-width:899px)': {
-			order: 1,
-			gridColumn: '1',
 			marginBottom: 0,
 		},
 	},

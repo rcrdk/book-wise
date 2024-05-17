@@ -26,8 +26,8 @@ On the first user access it's possible to enter dashboard as logged user with po
 
 ## 🔗 Links
 
-<!-- - [Design / Figma](https://www.figma.com/file/7YqU1dK7nzH7xw5hTosJ2w/Aula-%2B-Desafio---Ignite-Call?type=design&node-id=0%3A1&mode=design&t=x1lT1szFO8DXamn4-1)
-- [Deploy](https://ignite-call-self-phi.vercel.app) -->
+- [Design / Figma](https://www.figma.com/design/VbEdYdHPctFQ08psEzg7Ji/Desafio---BookWise?node-id=1%3A17&t=x90Hvl8puoOElwpl-1)
+- [Deploy](https://book-wise-flame.vercel.app)
 
 ## ⚙️ Enviroment Variables
 

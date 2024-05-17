@@ -53,16 +53,29 @@ export default async function handler(
 		})
 		.flat()
 
-	const allReadedCategoriesGrouped = Object.groupBy(
-		allReadedCategories,
-		(item) => item,
+	// NOT SUPPORTED NODE 20 AND BELOW
+	// const allReadedCategoriesGrouped = Object.groupBy(
+	// 	allReadedCategories,
+	// 	(item) => item,
+	// )
+
+	const allReadedCategoriesGrouped = allReadedCategories.reduce(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(prev: any, current: any) => {
+			const element = (prev[current] = prev[current] || [])
+			if (element) element.push(current)
+			return prev
+		},
+		{},
 	)
 
 	const allReadedCategoriesValues = Object.values(allReadedCategoriesGrouped)
 		.map((category) => {
+			const exists = category && Array.isArray(category)
+
 			return {
-				category_id: category ? category[0] : '',
-				quantity: category?.length || 0,
+				category_id: exists ? category[0] : '',
+				quantity: exists ? category.length : 0,
 			}
 		})
 		.sort((a, b) => b.quantity - a.quantity)
